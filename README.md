@@ -2,6 +2,10 @@
 
 A premium, production-grade Coaching ERP foundation.
 
+[Open the Fuzion Coaching live site](https://fuzioncoaching.onrender.com/)
+
+![Fuzion Coaching interface](https://yuvrajsinghnegi.vercel.app/images/projects/fuzion-coaching.webp)
+
 > This repository is the **foundation phase**. Business modules (Student, Teacher, Parent, and Admin portals, CBT engine, Fee Management, etc.) will be built on top without modifying the architecture.
 
 ## Tech Stack
@@ -11,9 +15,9 @@ A premium, production-grade Coaching ERP foundation.
 - **React Router v7** (SPA routing + route guards)
 - **React Hook Form** (typed forms)
 - **TanStack Query** (server-state cache)
-- **Firebase**: Auth, Firestore, Storage, Cloud Functions, Hosting
+- **Firebase**: Auth, Firestore, Storage, Cloud Functions, Firebase Hosting
 - **Framer Motion** (motion system)
-- **Chart.js** + **react-chartjs-2** (charts)
+- **Chart.js** + **react-chartjs-2**
 - **Sonner** (toasts)
 - **Lucide** (icons)
 
@@ -21,25 +25,24 @@ A premium, production-grade Coaching ERP foundation.
 
 ```bash
 bun install
-cp .env.example .env.local   # fill in your Firebase project keys
+cp .env.example .env.local   # Fill in your Firebase project keys
 bun dev
 ```
 
 Open http://localhost:8080.
 
-Without Firebase env vars the UI renders, but auth/DB actions surface a
-configuration error rather than silently failing.
+Without Firebase environment variables, the UI renders but authentication and database actions show a configuration error.
 
 ## Firebase Setup
 
 1. Create a Firebase project.
-2. Enable **Authentication** (Email/Password), **Firestore**, **Storage**, **Functions**, **Hosting**.
-3. Copy your web app config into `.env.local` (`VITE_FIREBASE_*`).
+2. Enable Authentication, Firestore, Storage, Cloud Functions, and Hosting.
+3. Copy your web app configuration into `.env.local` (`VITE_FIREBASE_*`).
 4. Deploy security rules and indexes:
    ```bash
    firebase deploy --only firestore:rules,firestore:indexes,storage
    ```
-5. Deploy hosting:
+5. Build and deploy hosting:
    ```bash
    bun run build
    firebase deploy --only hosting
@@ -49,54 +52,33 @@ configuration error rather than silently failing.
 
 ```
 src/
-├── app/                    App shell (App.tsx, provider composition)
-├── config/                 Env & runtime configuration
-├── constants/              App-wide constants (routes, roles, app info)
-├── context/                Global React contexts (auth, theme, sidebar)
-├── features/               Feature-owned code — grows with each module
-│   └── auth/
+├── app/                    App shell and provider composition
+├── config/                 Environment and runtime configuration
+├── constants/              App routes, roles, and settings
+├── context/                Auth, theme, and sidebar contexts
+├── features/               Feature modules
 ├── hooks/                  Reusable hooks
-├── layouts/                Page shells (AuthLayout, AppLayout)
-├── lib/                    Small library glue (utils re-exports)
+├── layouts/                App layouts
 ├── pages/                  Route components
-│   ├── auth/
-│   ├── dashboard/
-│   └── errors/
-├── routes/                 Router + guards (ProtectedRoute, PublicRoute)
-├── services/
-│   ├── firebase/           Firebase init + auth service
-│   ├── firestore/          Generic CRUD helpers
-│   ├── storage/            Upload/download helpers
-│   └── functions/          Callable Cloud Functions wrapper
-├── components/
-│   ├── ui/                 Primitives: Button, Input, Card, Modal, Label
-│   ├── common/             SearchBar, EmptyState, Pagination, PageHeader
-│   ├── forms/              FormField
-│   ├── tables/             DataTable
-│   ├── charts/             Chart.js wrappers
-│   ├── media/              FileUpload, ImagePreview, PdfPreview, VideoPlayer
-│   ├── navigation/         Sidebar, Topbar, MobileNav, Breadcrumbs
-│   └── feedback/           ErrorBoundary, Spinner, Skeleton, toast, FullPageLoader
-├── theme/                  Design tokens (TS-side accessor)
-├── types/                  Shared TypeScript types
-├── utils/                  cn, format, error mapping
-└── styles.css              Design system (Tailwind v4 + tokens)
+├── routes/                 Router and route guards
+├── services/               Firebase and application services
+├── components/              UI, forms, charts, navigation, and media
+├── theme/                  Design tokens
+├── types/                  Shared types
+└── utils/                  Small helpers
 ```
 
 ## Roles
 
-Four roles are defined in `src/types/user.ts` and `src/constants/roles.ts`:
-`student`, `teacher`, `parent`, `admin`. Wire them into `ProtectedRoute` via
-the `roles` prop.
+The foundation defines student, teacher, parent, and admin roles in `src/types/user.ts` and `src/constants/roles.ts`.
 
-## Adding a New Feature Module
+## Adding a Feature Module
 
-1. Create `src/features/<module>/` with its own `components/`, `hooks/`, `services/`, `types.ts`.
+1. Create `src/features/<module>/` with components, hooks, services, and types.
 2. Add pages under `src/pages/<module>/`.
-3. Register routes in `src/routes/AppRouter.tsx` (under `<ProtectedRoute>` with role gating as needed).
-4. Add navigation entries in `src/components/navigation/Sidebar.tsx` and `MobileNav.tsx`.
-5. Extend Firestore security rules for any new collections.
+3. Register guarded routes in `src/routes/AppRouter.tsx`.
+4. Add navigation entries and required Firestore rules.
 
 ## Deployment
 
-Firebase Hosting is preconfigured. Any static host that serves `dist/` with an SPA fallback works.
+Firebase Hosting is preconfigured. Any static host serving `dist/` with an SPA fallback can also be used.
