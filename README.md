@@ -1,5 +1,7 @@
 # Fuzion Coaching Institute
 
+Featured in the [YSN Portfolio](https://yuvrajsinghnegi.vercel.app/#projects).
+
 A premium, production-grade Coaching ERP foundation.
 
 [Open the Fuzion Coaching live site](https://fuzioncoaching.onrender.com/)
@@ -36,7 +38,7 @@ Without Firebase environment variables, the UI renders but authentication and da
 ## Firebase Setup
 
 1. Create a Firebase project.
-2. Enable Authentication, Firestore, Storage, Cloud Functions, and Hosting.
+2. Enable Authentication, Firestore, Storage, Cloud Functions, and Firebase Hosting.
 3. Copy your web app configuration into `.env.local` (`VITE_FIREBASE_*`).
 4. Deploy security rules and indexes:
    ```bash
@@ -58,7 +60,7 @@ src/
 ├── context/                Auth, theme, and sidebar contexts
 ├── features/               Feature modules
 ├── hooks/                  Reusable hooks
-├── layouts/                App layouts
+├── layouts/                Layouts and provider composition
 ├── pages/                  Route components
 ├── routes/                 Router and route guards
 ├── services/               Firebase and application services
